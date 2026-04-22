@@ -65,15 +65,25 @@ export default function PressPage() {
           </CardContent>
         </Card>
         <div className="space-y-4">
-          {mockPressCoverage.map((item) => (
-            <Card key={item.id} className="border-border bg-card transition-transform hover:-translate-y-1">
+          {mockPressCoverage.length ? (
+            mockPressCoverage.map((item) => (
+              <Card key={item.id} className="border-border bg-card transition-transform hover:-translate-y-1">
+                <CardContent className="p-6">
+                  <div className="text-xs uppercase tracking-wide text-muted-foreground">{item.outlet}</div>
+                  <p className="mt-2 text-sm text-foreground">{item.headline}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">{item.date}</p>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Card className="border-dashed border-primary/25 bg-muted/40">
               <CardContent className="p-6">
-                <div className="text-xs uppercase tracking-wide text-muted-foreground">{item.outlet}</div>
-                <p className="mt-2 text-sm text-foreground">{item.headline}</p>
-                <p className="mt-2 text-xs text-muted-foreground">{item.date}</p>
+                <p className="text-sm text-muted-foreground">
+                  Third-party coverage will be listed here when outlets reference Medianewsqo in their reporting.
+                </p>
               </CardContent>
             </Card>
-          ))}
+          )}
         </div>
       </div>
 

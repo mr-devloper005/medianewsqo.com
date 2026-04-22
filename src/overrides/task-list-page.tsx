@@ -1,58 +1,53 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { fetchTaskPosts } from '@/lib/task-data'
 import type { TaskKey } from '@/lib/site-config'
+import { UpdatesListingClient } from '@/overrides/updates-listing-client'
+import { SITE_CONFIG } from '@/lib/site-config'
+import { Radio } from 'lucide-react'
 
 export const TASK_LIST_PAGE_OVERRIDE_ENABLED = true
 
-function excerpt(text?: string | null) {
-  const value = (text || '').trim()
-  if (!value) return 'Read the full post for the complete update.'
-  return value.length > 220 ? value.slice(0, 217).trimEnd() + '...' : value
-}
-
-export async function TaskListPageOverride(_: { task: TaskKey; category?: string }) {
-  const posts = await fetchTaskPosts('mediaDistribution', 24, { fresh: true })
-  const recent = posts.slice(0, 5)
+export async function TaskListPageOverride({ category }: { task: TaskKey; category?: string }) {
+  const posts = await fetchTaskPosts('mediaDistribution', 48, { fresh: true })
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900">
+    <div className="min-h-screen bg-[var(--mn-cream)] text-[var(--mn-ink)]">
       <NavbarShell />
-      <main className="mx-auto grid max-w-6xl gap-12 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_280px]">
-        <div className="space-y-14">
-          {posts.map((post) => (
-            <article key={post.id} className="border-b border-neutral-200 pb-12">
-              <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">{String((post.content as any)?.category || 'Update')}</p>
-              <h1 className="mx-auto mt-3 max-w-4xl text-center text-3xl font-black uppercase leading-tight tracking-[0.02em] sm:text-4xl">{post.title}</h1>
-              <div className="mt-4 flex items-center justify-center gap-3 text-sm text-neutral-500">
-                <span className="bg-neutral-800 px-3 py-1 text-white">{new Date(post.publishedAt || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-                <span>by {post.authorName || 'Editorial Desk'}</span>
-              </div>
-              <p className="mx-auto mt-8 max-w-3xl text-lg leading-9 text-neutral-700">{excerpt(post.summary)}</p>
-              <div className="mt-8 text-center">
-                <Link href={`/updates/${post.slug}`} className="inline-flex rounded-full bg-neutral-800 px-8 py-3 text-sm font-medium text-white hover:bg-black">Continue Reading</Link>
-              </div>
-            </article>
-          ))}
-        </div>
-        <aside className="space-y-6">
-          <div className="border border-neutral-200 p-6">
-            <div className="flex items-center gap-0">
-              <input className="h-12 flex-1 border border-neutral-200 px-4 text-sm outline-none" placeholder="Type here to search" />
-              <button className="flex h-12 w-12 items-center justify-center bg-neutral-800 text-white">Q</button>
-            </div>
+      <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        <header className="mb-12 max-w-3xl">
+          <p className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--mn-coral)_35%,transparent)] bg-white/80 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--mn-coral)]">
+            <Radio className="h-3.5 w-3.5" aria-hidden />
+            Wire desk
+          </p>
+          <h1 className="font-display mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Browse press releases</h1>
+          <p className="mt-4 text-base leading-relaxed text-[var(--mn-ink-soft)]">
+            Filter by category and date, or search headlines. Every release from {SITE_CONFIG.name} is published here before wider syndication.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
+            <Link href="/pricing" className="rounded-full bg-[var(--mn-coral)] px-5 py-2.5 text-white shadow-sm transition hover:opacity-95">
+              Compare plans
+            </Link>
+            <Link
+              href="/contact"
+              className="rounded-full border border-[color-mix(in_srgb,var(--mn-coral)_45%,transparent)] bg-white px-5 py-2.5 text-[var(--mn-ink)] transition hover:border-[var(--mn-coral)]"
+            >
+              Editorial contact
+            </Link>
           </div>
-          <div className="border border-neutral-200 p-6">
-            <div className="space-y-5">
-              {recent.map((post) => (
-                <Link key={post.id} href={`/updates/${post.slug}`} className="block border-b border-neutral-200 pb-5 last:border-b-0 last:pb-0">
-                  <p className="text-base leading-7 text-neutral-700">{post.title}</p>
-                </Link>
-              ))}
+        </header>
+
+        <Suspense
+          fallback={
+            <div className="rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_22%,transparent)] bg-white/80 p-10 text-center text-[var(--mn-ink-soft)]">
+              Loading releases…
             </div>
-          </div>
-        </aside>
+          }
+        >
+          <UpdatesListingClient posts={posts} initialCategory={category} />
+        </Suspense>
       </main>
       <Footer />
     </div>

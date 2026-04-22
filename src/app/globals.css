@@ -4,14 +4,18 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.985 0.006 84);
-  --foreground: oklch(0.23 0.03 20);
-  --card: oklch(0.992 0.004 84 / 0.96);
-  --card-foreground: oklch(0.23 0.03 20);
-  --popover: oklch(0.992 0.004 84 / 0.98);
-  --popover-foreground: oklch(0.23 0.03 20);
-  --primary: oklch(0.41 0.15 10);
-  --primary-foreground: oklch(0.99 0.005 84);
+  --mn-cream: #ffead8;
+  --mn-coral: #e8988a;
+  --mn-ink: #2c211c;
+  --mn-ink-soft: #5c4a42;
+  --background: oklch(0.96 0.03 55);
+  --foreground: oklch(0.26 0.03 25);
+  --card: oklch(0.992 0.02 55 / 0.96);
+  --card-foreground: oklch(0.26 0.03 25);
+  --popover: oklch(0.992 0.02 55 / 0.98);
+  --popover-foreground: oklch(0.26 0.03 25);
+  --primary: oklch(0.72 0.1 35);
+  --primary-foreground: oklch(0.99 0.01 55);
   --secondary: oklch(0.95 0.02 85);
   --secondary-foreground: oklch(0.3 0.04 20);
   --muted: oklch(0.955 0.012 85);
@@ -22,7 +26,7 @@
   --destructive-foreground: oklch(0.98 0.005 84);
   --border: oklch(0.88 0.02 70);
   --input: oklch(0.975 0.01 84);
-  --ring: oklch(0.41 0.15 10);
+  --ring: oklch(0.72 0.1 35);
   --chart-1: oklch(0.41 0.15 10);
   --chart-2: oklch(0.56 0.17 18);
   --chart-3: oklch(0.76 0.1 155);
@@ -128,9 +132,9 @@
     @apply bg-background text-foreground;
     min-height: 100vh;
     background-image:
-      radial-gradient(circle at top left, rgba(110, 26, 55, 0.09), transparent 32%),
-      radial-gradient(circle at top right, rgba(114, 186, 169, 0.12), transparent 28%),
-      linear-gradient(180deg, rgba(255, 252, 246, 0.96) 0%, rgba(250, 244, 235, 0.98) 36%, rgba(247, 241, 230, 1) 100%);
+      radial-gradient(circle at 12% 0%, rgba(232, 152, 138, 0.22), transparent 38%),
+      radial-gradient(circle at 88% 8%, rgba(255, 234, 216, 0.95), transparent 42%),
+      linear-gradient(180deg, #fff6ec 0%, #ffead8 38%, #fffdfb 100%);
     background-attachment: fixed;
   }
 
@@ -162,8 +166,19 @@
   }
 
   ::selection {
-    background: rgba(174, 36, 72, 0.18);
+    background: rgba(232, 152, 138, 0.35);
     color: inherit;
+  }
+}
+
+@keyframes mn-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -229,7 +244,7 @@
   font-weight: 700;
   line-height: 1.25;
   margin: 2.2rem 0 1rem;
-  color: rgb(110, 26, 55);
+  color: var(--mn-coral);
 }
 
 .article-content h3 {
@@ -244,7 +259,7 @@
 }
 
 .article-content a {
-  color: rgb(174, 36, 72);
+  color: var(--mn-coral);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;

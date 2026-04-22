@@ -8,8 +8,8 @@ export const SITE_THEME = defineSiteTheme({
   },
   home: {
     layout: 'directory-stack',
-    primaryTask: 'listing',
-    featuredTaskKeys: ['listing', 'profile', 'classified'],
+    primaryTask: 'mediaDistribution',
+    featuredTaskKeys: ['mediaDistribution'],
   },
   navigation: {
     variant: 'compact',

@@ -13,7 +13,6 @@ import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind, type ProductKind } from '@/design/factory/get-product-kind'
 import type { SitePost } from '@/lib/site-connector'
-import { getHomeEditorialMockPosts, mergeEditorialPostsForHome } from '@/lib/home-editorial-mock'
 import { HOME_PAGE_OVERRIDE_ENABLED, HomePageOverride } from '@/overrides/home-page'
 
 export const revalidate = 300
@@ -624,10 +623,7 @@ export default async function HomePage() {
   const mediaDistributionPosts =
     taskFeed.find(({ task }) => task.key === 'mediaDistribution')?.posts || []
   const editorialRaw = articlePosts.length ? articlePosts : mediaDistributionPosts
-  const editorialPosts =
-    editorialRaw.length > 0
-      ? editorialRaw.slice(0, 16)
-      : mergeEditorialPostsForHome(editorialRaw, getHomeEditorialMockPosts(), 16)
+  const editorialPosts = editorialRaw.slice(0, 16)
   const imagePosts = taskFeed.find(({ task }) => task.key === 'image')?.posts || []
   const profilePosts = taskFeed.find(({ task }) => task.key === 'profile')?.posts || []
   const bookmarkPosts = taskFeed.find(({ task }) => task.key === 'sbm')?.posts || []

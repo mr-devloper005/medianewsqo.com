@@ -1,9 +1,9 @@
 export const siteTaskDefinitions = [
   {
     key: 'mediaDistribution',
-    label: 'Updates',
+    label: 'Press releases',
     route: '/updates',
-    description: 'Recent posts and newsroom updates.',
+    description: 'Wire-ready announcements with editorial review and syndication metadata.',
     contentType: 'mediaDistribution',
     enabled: true,
   },

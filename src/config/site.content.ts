@@ -2,80 +2,80 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent news desk',
+    tagline: 'Press distribution desk',
   },
   footer: {
-    tagline: 'Simple publishing for press-style updates',
+    tagline: 'Wire-ready releases for modern communications teams',
   },
   hero: {
-    badge: 'Latest updates',
-    title: ['Clear publishing, simple reading, no extra noise.'],
+    badge: 'Press distribution',
+    title: ['Put company news where journalists and search already look.'],
     description:
-      'A minimal article-style publishing template built for regular updates, announcements, and media distribution posts.',
+      'Medianewsqo helps teams publish disciplined press releases with editorial review, structured formatting, and distribution tuned for digital newsrooms.',
     primaryCta: {
-      label: 'Browse latest posts',
+      label: 'Browse releases',
       href: '/updates',
     },
     secondaryCta: {
-      label: 'Contact us',
-      href: '/contact',
+      label: 'View pricing',
+      href: '/pricing',
     },
-    searchPlaceholder: 'Search posts',
-    focusLabel: 'Latest',
-    featureCardBadge: 'editor note',
-    featureCardTitle: 'Recent updates appear directly on the homepage.',
+    searchPlaceholder: 'Search releases',
+    focusLabel: 'Latest wire',
+    featureCardBadge: 'Desk note',
+    featureCardTitle: 'New approvals land here first.',
     featureCardDescription:
-      'The homepage works as a clean front page so new posts stay visible without decorative sections getting in the way.',
+      'The homepage highlights the freshest wire entries so stakeholders see what is live without wading through unrelated tasks.',
   },
   home: {
     metadata: {
-      title: 'Latest updates and newsroom posts',
+      title: 'Medianewsqo — press distribution & editorial wire',
       description:
-        'Read the latest updates, announcements, and stories through a simple archive-first publishing experience.',
-      openGraphTitle: 'Latest updates and newsroom posts',
+        'Distribute press releases with editorial review, structured formatting, and syndication tuned for journalists and search.',
+      openGraphTitle: 'Medianewsqo — press distribution & editorial wire',
       openGraphDescription:
-        'A simple publishing template for updates, announcements, and readable article pages.',
-      keywords: ['newsroom posts', 'latest updates', 'announcements', 'press articles'],
+        'Wire-ready press releases with editorial review and distribution tuned for digital newsrooms.',
+      keywords: ['press release', 'media distribution', 'Medianewsqo', 'editorial wire', 'PR syndication'],
     },
-    introBadge: 'About',
-    introTitle: 'A quiet publishing template made for regular updates.',
+    introBadge: 'Why Medianewsqo',
+    introTitle: 'A calmer surface for high-stakes announcements.',
     introParagraphs: [
-      'This template is designed for sites that publish straightforward updates and want the homepage to behave like a clean front page rather than a product landing page.',
-      'Posts are visible immediately, archives stay easy to scan, and the reading page keeps the focus on the article itself.',
-      'The interface is intentionally simple so the site feels usable, familiar, and fast to update.',
+      'Communications teams need a desk that respects embargoes, sourcing, and formatting rules without turning every launch into a web-design project.',
+      'Medianewsqo keeps the story first: readable typography, structured fields, and a wire archive that journalists can scan in seconds.',
+      'The experience stays lightweight on purpose—fast to load, easy to search, and ready to connect to your existing publishing pipeline.',
     ],
-    sideBadge: 'What it prioritizes',
+    sideBadge: 'What you get',
     sidePoints: [
-      'Recent posts directly on the homepage.',
-      'Simple archive layout with sidebar search and recent items.',
-      'Readable article pages without comments or extra modules.',
-      'A publishing-first structure that stays easy to maintain.',
+      'Editorial review before anything hits the public wire.',
+      'Category-aware archive with filters for date and topic.',
+      'Article pages optimized for sharing, citations, and syndication.',
+      'Pricing and add-ons that map to real distribution work—not vanity dashboards.',
     ],
     primaryLink: {
-      label: 'Open archive',
+      label: 'Open wire',
       href: '/updates',
     },
     secondaryLink: {
-      label: 'Contact desk',
+      label: 'Talk to the desk',
       href: '/contact',
     },
   },
   cta: {
-    badge: 'Get in touch',
-    title: 'Use this template when publishing regular updates matters more than visual effects.',
+    badge: 'Next step',
+    title: 'Need a walkthrough of your publishing calendar?',
     description:
-      'A straightforward layout for announcements, media coverage, partner updates, and newsroom-style content.',
+      'Tell us about your beats, embargoes, and compliance notes—we will map the right distribution lane and support model.',
     primaryCta: {
-      label: 'Contact us',
+      label: 'Contact editorial',
       href: '/contact',
     },
     secondaryCta: {
-      label: 'View archive',
-      href: '/updates',
+      label: 'Browse pricing',
+      href: '/pricing',
     },
   },
-  taskSectionHeading: 'Latest posts',
-  taskSectionDescriptionSuffix: 'Read the newest published updates.',
+  taskSectionHeading: 'Latest wire',
+  taskSectionDescriptionSuffix: 'Freshly filed releases from the Medianewsqo desk.',
 } as const
 
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
@@ -108,8 +108,8 @@ export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'soci
     description: 'Open PDFs and downloadable files.',
   },
   mediaDistribution: {
-    title: 'Latest updates',
-    description: 'Read the latest published updates and announcements.',
+    title: 'Press releases',
+    description: 'Browse the Medianewsqo wire—filtered by category and date.',
   },
 }
 
@@ -128,14 +128,14 @@ export const taskIntroCopy: Record<
   comment: { title: 'Comments', paragraphs: ['Commentary and response posts.'], links: [{ label: 'Home', href: '/' }] },
   org: { title: 'Organizations', paragraphs: ['Organization pages and entities.'], links: [{ label: 'Home', href: '/' }] },
   mediaDistribution: {
-    title: 'Latest updates',
+    title: 'Press releases',
     paragraphs: [
-      'This archive is designed for straightforward publishing: regular updates, announcements, and media-style posts presented in a clean reading format.',
-      'The layout stays simple so visitors can scan headlines quickly, open stories easily, and move through the archive without distraction.',
+      'This archive lists every wire entry published through Medianewsqo—newest first—with filters for category and recency.',
+      'Open any headline for the full release, share links, and related coverage from the same desk.',
     ],
     links: [
       { label: 'Home', href: '/' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'Pricing', href: '/pricing' },
     ],
   },
 }

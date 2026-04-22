@@ -812,25 +812,25 @@ export const mockCommunityGroups: CommunityGroup[] = [
 export const mockPressAssets: PressAsset[] = [
   {
     id: 'press-1',
-    title: 'Brand Logo Pack',
-    description: 'SVG, PNG, and monochrome variations.',
+    title: 'Medianewsqo wordmark pack',
+    description: 'SVG and PNG exports for light, dark, and single-color placements.',
     fileType: 'ZIP',
-    previewUrl: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&h=600&fit=crop'
+    previewUrl: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&h=600&fit=crop',
   },
   {
     id: 'press-2',
-    title: 'Product Screenshots',
-    description: 'High-resolution UI captures for media.',
+    title: 'Wire & desk photography',
+    description: 'Lifestyle stills sized for articles, partner pages, and social surfaces.',
     fileType: 'ZIP',
-    previewUrl: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=800&h=600&fit=crop'
+    previewUrl: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=800&h=600&fit=crop',
   },
   {
     id: 'press-3',
-    title: 'Brand Guidelines',
-    description: 'Usage rules, color palette, and typography.',
+    title: 'Editorial voice & disclosure guide',
+    description: 'Tone, sourcing, and correction policies for contributors and partners.',
     fileType: 'PDF',
-    previewUrl: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=800&h=600&fit=crop'
-  }
+    previewUrl: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=800&h=600&fit=crop',
+  },
 ]
 
 export const mockApiEndpoints: ApiEndpoint[] = [
@@ -905,23 +905,4 @@ export const mockBlogPosts: BlogPost[] = [
   }
 ]
 
-export const mockPressCoverage: PressCoverage[] = [
-  {
-    id: 'press-coverage-1',
-    outlet: 'Product Weekly',
-    headline: 'This platform makes link sharing feel premium.',
-    date: 'Mar 2026'
-  },
-  {
-    id: 'press-coverage-2',
-    outlet: 'Design Journal',
-    headline: 'A fresh take on community curation.',
-    date: 'Feb 2026'
-  },
-  {
-    id: 'press-coverage-3',
-    outlet: 'Tech Today',
-    headline: 'Why teams are switching to this platform.',
-    date: 'Jan 2026'
-  }
-]
+export const mockPressCoverage: PressCoverage[] = []
