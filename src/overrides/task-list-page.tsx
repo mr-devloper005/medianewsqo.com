@@ -22,14 +22,11 @@ export async function TaskListPageOverride({ category }: { task: TaskKey; catego
             <Radio className="h-3.5 w-3.5" aria-hidden />
             Wire desk
           </p>
-          <h1 className="font-display mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Browse press releases</h1>
+          <h1 className="font-display mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Browse press media</h1>
           <p className="mt-4 text-base leading-relaxed text-[var(--mn-ink-soft)]">
             Filter by category and date, or search headlines. Every release from {SITE_CONFIG.name} is published here before wider syndication.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
-            <Link href="/pricing" className="rounded-full bg-[var(--mn-coral)] px-5 py-2.5 text-white shadow-sm transition hover:opacity-95">
-              Compare plans
-            </Link>
             <Link
               href="/contact"
               className="rounded-full border border-[color-mix(in_srgb,var(--mn-coral)_45%,transparent)] bg-white px-5 py-2.5 text-[var(--mn-ink)] transition hover:border-[var(--mn-coral)]"

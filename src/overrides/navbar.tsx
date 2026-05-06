@@ -22,8 +22,7 @@ export const NAVBAR_OVERRIDE_ENABLED = true
 const primaryHref = SITE_CONFIG.tasks.find((t) => t.key === 'mediaDistribution')?.route || '/updates'
 
 const navLinks = [
-  { label: 'Press releases', href: primaryHref },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Press media', href: primaryHref },
   { label: 'Contact', href: '/contact' },
   { label: 'About', href: '/about' },
 ]

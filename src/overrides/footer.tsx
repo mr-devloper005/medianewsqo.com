@@ -24,12 +24,7 @@ export function FooterOverride() {
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <Link href={primaryRoute} className="hover:text-white">
-                  Press releases
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="hover:text-white">
-                  Plans &amp; pricing
+                  Press media
                 </Link>
               </li>
               <li>

@@ -75,12 +75,6 @@ export async function HomePageOverride() {
               >
                 {siteContent.hero.primaryCta.label}
               </Link>
-              <Link
-                href="/pricing"
-                className="inline-flex items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--mn-coral)_45%,transparent)] bg-white/90 px-7 py-3.5 text-sm font-semibold text-[var(--mn-ink)] transition hover:border-[var(--mn-coral)]"
-              >
-                View pricing
-              </Link>
             </div>
             <dl className="mt-12 grid grid-cols-3 gap-4 border-t border-[color-mix(in_srgb,var(--mn-coral)_22%,transparent)] pt-10 text-center sm:text-left">
               <div>
@@ -238,8 +232,8 @@ export async function HomePageOverride() {
           <div className="mt-12 rounded-[2rem] border border-dashed border-[color-mix(in_srgb,var(--mn-coral)_35%,transparent)] bg-white/70 p-12 text-center">
             <p className="text-lg font-semibold">Releases will appear here once published.</p>
             <p className="mt-2 text-sm text-[var(--mn-ink-soft)]">Connect your feed in the master panel to populate this wire automatically.</p>
-            <Link href="/contact" className="mt-6 inline-flex rounded-full bg-[var(--mn-coral)] px-6 py-3 text-sm font-semibold text-white">
-              Contact editorial
+            <Link href="/contact" className="mt-6 inline-flex rounded-full bg-[var(--mn-coral)] px-6 py-3 text-sm font-semibold text-white" style={{ marginRight: '100px' }}>
+              Contact
             </Link>
           </div>
         )}
@@ -279,9 +273,6 @@ export async function HomePageOverride() {
               className="inline-flex rounded-full bg-[var(--mn-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-black/20"
             >
               {siteContent.cta.primaryCta.label}
-            </Link>
-            <Link href="/pricing#faq" className="inline-flex rounded-full border border-white/25 px-7 py-3.5 text-sm font-semibold text-white hover:bg-white/10">
-              Pricing FAQ
             </Link>
           </div>
         </div>
