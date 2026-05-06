@@ -108,7 +108,7 @@ export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'soci
     description: 'Open PDFs and downloadable files.',
   },
   mediaDistribution: {
-    title: 'Press releases',
+    title: 'Press media',
     description: 'Browse the Medianewsqo wire—filtered by category and date.',
   },
 }
@@ -128,7 +128,7 @@ export const taskIntroCopy: Record<
   comment: { title: 'Comments', paragraphs: ['Commentary and response posts.'], links: [{ label: 'Home', href: '/' }] },
   org: { title: 'Organizations', paragraphs: ['Organization pages and entities.'], links: [{ label: 'Home', href: '/' }] },
   mediaDistribution: {
-    title: 'Press releases',
+    title: 'Press media',
     paragraphs: [
       'This archive lists every wire entry published through Medianewsqo—newest first—with filters for category and recency.',
       'Open any headline for the full release, share links, and related coverage from the same desk.',

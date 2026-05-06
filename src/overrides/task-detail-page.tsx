@@ -55,7 +55,7 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
           </Link>
           <ChevronRight className="h-3.5 w-3.5 opacity-60" aria-hidden />
           <Link href="/updates" className="transition hover:text-[var(--mn-coral)]">
-            Press releases
+            Press media
           </Link>
           <ChevronRight className="h-3.5 w-3.5 opacity-60" aria-hidden />
           <span className="truncate text-[var(--mn-ink)]">{post.title}</span>
@@ -66,13 +66,6 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
           <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-5xl">{post.title}</h1>
           {subtitle ? <p className="mt-5 text-lg leading-relaxed text-[var(--mn-ink-soft)] sm:text-xl">{subtitle}</p> : null}
           <div className="mt-8 flex flex-wrap items-center gap-4 border-y border-[color-mix(in_srgb,var(--mn-coral)_22%,transparent)] py-5 text-sm">
-            <div>
-              <span className="block text-xs uppercase tracking-[0.16em] text-[var(--mn-ink-soft)]">Published</span>
-              <time className="font-semibold text-[var(--mn-ink)]" dateTime={post.publishedAt || undefined}>
-                {dateStr}
-              </time>
-            </div>
-            <div className="hidden h-10 w-px bg-[color-mix(in_srgb,var(--mn-coral)_25%,transparent)] sm:block" />
             <div>
               <span className="block text-xs uppercase tracking-[0.16em] text-[var(--mn-ink-soft)]">Contact</span>
               <span className="font-semibold text-[var(--mn-ink)]">{author}</span>
@@ -102,12 +95,12 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
               </p>
               <Link
                 href="/contact"
-                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-[var(--mn-coral)] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-[var(--mn-coral)] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 mr-[50px]"
               >
-                Talk to editorial
+                Contact
               </Link>
-              <Link href="/pricing" className="mt-3 block text-center text-sm font-semibold text-[var(--mn-coral)] hover:underline">
-                View distribution plans
+              <Link href="/contact" className="mt-3 block text-center text-sm font-semibold text-[var(--mn-coral)] hover:underline mr-[100px]">
+                Contact
               </Link>
             </div>
             <div className="rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_18%,transparent)] bg-[color-mix(in_srgb,var(--mn-cream)_55%,white)] p-6">
@@ -132,12 +125,7 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
                   href={`/updates/${item.slug}`}
                   className="group rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_18%,transparent)] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <p className="text-xs text-[var(--mn-ink-soft)]">
-                    {item.publishedAt
-                      ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                      : ''}
-                  </p>
-                  <h3 className="mt-2 font-display text-lg font-semibold text-[var(--mn-ink)] group-hover:text-[var(--mn-coral)]">{item.title}</h3>
+                  <h3 className="font-display text-lg font-semibold text-[var(--mn-ink)] group-hover:text-[var(--mn-coral)]">{item.title}</h3>
                   {item.summary ? <p className="mt-2 line-clamp-2 text-sm text-[var(--mn-ink-soft)]">{item.summary}</p> : null}
                 </Link>
               ))}

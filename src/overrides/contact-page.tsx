@@ -83,17 +83,7 @@ export function ContactPageOverride() {
                 />
               </div>
             </div>
-            <div className="rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_18%,transparent)] bg-[color-mix(in_srgb,var(--mn-cream)_55%,white)] p-6">
-              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--mn-ink-soft)]">Editorial desk</h3>
-              <p className="mt-3 text-lg font-semibold">
-                <a href={`mailto:${desk}`} className="text-[var(--mn-coral)] hover:underline">
-                  {desk}
-                </a>
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-[var(--mn-ink-soft)]">
-                For urgent corrections on a live release, include the headline and URL so producers can locate the asset immediately.
-              </p>
-            </div>
+
             <div className="rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_35%,transparent)] bg-[var(--mn-coral)]/10 p-6">
               <h3 className="font-display text-lg font-semibold text-[var(--mn-ink)]">FAQ first</h3>
               <p className="mt-2 text-sm text-[var(--mn-ink-soft)]">Many distribution questions are answered on the pricing page.</p>
