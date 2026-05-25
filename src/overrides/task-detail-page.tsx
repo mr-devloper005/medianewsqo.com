@@ -1,138 +1,165 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Facebook, Linkedin, Link2, Mail, Twitter } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
-import { fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
-import type { TaskKey } from '@/lib/site-config'
-import { formatRichHtml, RichContent } from '@/components/shared/rich-content'
 import { ContentImage } from '@/components/shared/content-image'
-import { SITE_CONFIG } from '@/lib/site-config'
-import { ShareRow } from '@/components/medianewsqo/share-row'
-import { ChevronRight } from 'lucide-react'
+import { fetchTaskPostBySlug, fetchTaskPosts, buildPostUrl } from '@/lib/task-data'
+import type { TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
+import { SITE_CONFIG } from '@/lib/site-config'
+import { formatRichHtml, RichContent } from '@/components/shared/rich-content'
+import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 
 export const TASK_DETAIL_PAGE_OVERRIDE_ENABLED = true
 
-function getImageUrls(post: SitePost) {
+const isValidImageUrl = (value?: string | null) =>
+  typeof value === 'string' && (value.startsWith('/') || /^https?:\/\//i.test(value))
+
+const getContent = (post: SitePost) => {
+  const content = post.content && typeof post.content === 'object' ? post.content : {}
+  return content as Record<string, unknown>
+}
+
+const getImageUrls = (post: SitePost, content: Record<string, unknown>) => {
   const media = Array.isArray(post.media) ? post.media : []
-  const fromMedia = media.map((m) => m?.url).filter((u): u is string => typeof u === 'string' && u.length > 0)
-  const content = post.content && typeof post.content === 'object' ? (post.content as Record<string, unknown>) : {}
-  const fromImages = Array.isArray(content.images) ? content.images.filter((u): u is string => typeof u === 'string') : []
-  const merged = [...fromMedia, ...fromImages]
+  const mediaImages = media.map((item) => item?.url).filter((url): url is string => isValidImageUrl(url))
+  const contentImages = Array.isArray(content.images)
+    ? content.images.filter((url): url is string => typeof url === 'string' && isValidImageUrl(url))
+    : []
+  const merged = [...mediaImages, ...contentImages]
   if (merged.length) return merged
-  if (typeof content.logo === 'string') return [content.logo]
-  return ['https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1600&q=80']
+  if (isValidImageUrl(content.logo as string)) return [content.logo as string]
+  return [] as string[]
+}
+
+const getCategoryLabel = (post: SitePost, content: Record<string, unknown>) => {
+  const raw =
+    (typeof content.category === 'string' && content.category.trim()) ||
+    (Array.isArray(post.tags) ? post.tags.find((tag) => typeof tag === 'string' && tag !== 'mediaDistribution') : '') ||
+    ''
+  if (!raw || typeof raw !== 'string') return 'Press releases'
+  const normalized = normalizeCategory(raw)
+  return CATEGORY_OPTIONS.find((item) => item.slug === normalized)?.name || raw.trim()
 }
 
 export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: string }) {
   const post = await fetchTaskPostBySlug('mediaDistribution', slug)
   if (!post) notFound()
 
-  const related = (await fetchTaskPosts('mediaDistribution', 12, { fresh: true }))
+  const related = (await fetchTaskPosts('mediaDistribution', 8, { fresh: true }))
     .filter((item) => item.slug !== slug)
     .slice(0, 4)
 
-  const content = (post.content || {}) as Record<string, unknown>
-  const html = formatRichHtml((content.body as string) || post.summary || '', '')
-  const images = getImageUrls(post)
-  const category = typeof content.category === 'string' ? content.category : 'Press release'
-  const subtitle =
-    (typeof content.excerpt === 'string' && content.excerpt.trim()) ||
-    (post.summary ? post.summary.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ') : '')
-  const author = post.authorName || `${SITE_CONFIG.name} Editorial`
-  const dateStr = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
-    : ''
-  const pageUrl = `${SITE_CONFIG.baseUrl.replace(/\/$/, '')}/updates/${slug}`
+  const content = getContent(post)
+  const rawBody =
+    (typeof content.body === 'string' && content.body.trim()) ||
+    (typeof content.description === 'string' && content.description.trim()) ||
+    post.summary ||
+    ''
+  const html = formatRichHtml(rawBody, '')
+  const images = getImageUrls(post, content)
+  const hero = images[0]
+  const archivePath = SITE_CONFIG.taskViews.mediaDistribution || '/updates'
+  const categoryLabel = getCategoryLabel(post, content)
+  const categorySlug = normalizeCategory(categoryLabel)
+  const pageUrl = `${SITE_CONFIG.baseUrl.replace(/\/$/, '')}${buildPostUrl('mediaDistribution', post.slug)}`
+  const shareText = encodeURIComponent(post.title)
+  const shareUrl = encodeURIComponent(pageUrl)
+
 
   return (
-    <div className="min-h-screen bg-[var(--mn-cream)] text-[var(--mn-ink)]">
+    <div className="min-h-screen bg-white text-foreground">
       <NavbarShell />
-      <main className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-        <nav className="flex flex-wrap items-center gap-2 text-sm text-[var(--mn-ink-soft)]">
-          <Link href="/" className="transition hover:text-[var(--mn-coral)]">
+
+      <article className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 lg:pt-12">
+        <nav className="text-xs font-medium text-muted-foreground">
+          <Link href="/" className="hover:text-primary">
             Home
           </Link>
-          <ChevronRight className="h-3.5 w-3.5 opacity-60" aria-hidden />
-          <Link href="/updates" className="transition hover:text-[var(--mn-coral)]">
-            Press media
+          <span className="mx-2 opacity-40">/</span>
+          <Link href={archivePath} className="hover:text-primary">
+            Press releases
           </Link>
-          <ChevronRight className="h-3.5 w-3.5 opacity-60" aria-hidden />
-          <span className="truncate text-[var(--mn-ink)]">{post.title}</span>
+          <span className="mx-2 opacity-40">/</span>
+          <Link href={`${archivePath}?category=${categorySlug}`} className="hover:text-primary">
+            {categoryLabel}
+          </Link>
         </nav>
 
-        <header className="mt-10 max-w-4xl">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--mn-coral)]">{category}</p>
-          <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-5xl">{post.title}</h1>
-          {subtitle ? <p className="mt-5 text-lg leading-relaxed text-[var(--mn-ink-soft)] sm:text-xl">{subtitle}</p> : null}
-          <div className="mt-8 flex flex-wrap items-center gap-4 border-y border-[color-mix(in_srgb,var(--mn-coral)_22%,transparent)] py-5 text-sm">
-            <div>
-              <span className="block text-xs uppercase tracking-[0.16em] text-[var(--mn-ink-soft)]">Contact</span>
-              <span className="font-semibold text-[var(--mn-ink)]">{author}</span>
-            </div>
-          </div>
-          <div className="mt-6">
-            <ShareRow url={pageUrl} title={post.title} />
-          </div>
-        </header>
+        <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-14">
+          <div className="min-w-0">
+            <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.12] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.35rem]">
+              {post.title}
+            </h1>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <article className="min-w-0">
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_20%,transparent)] bg-white shadow-[0_24px_60px_rgba(44,34,28,0.1)]">
-              <ContentImage src={images[0]} alt={post.title} fill className="object-cover" priority />
+            <div className="mt-6 flex flex-wrap gap-2">
+              <a
+                href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                aria-label="Share on X"
+              >
+                <Twitter className="h-4 w-4" />
+              </a>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                aria-label="Share on LinkedIn"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                aria-label="Share on Facebook"
+              >
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a
+                href={`mailto:?subject=${shareText}&body=${shareUrl}`}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                aria-label="Email this release"
+              >
+                <Mail className="h-4 w-4" />
+              </a>
+              <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-2 text-xs text-muted-foreground">
+                <Link2 className="h-3.5 w-3.5" />
+                {pageUrl.replace(/^https?:\/\//, '')}
+              </span>
             </div>
-            <RichContent
-              html={html}
-              className="article-content mt-10 max-w-3xl text-[1.05rem] leading-[1.85] text-[var(--mn-ink)]"
-            />
-          </article>
 
-          <aside className="space-y-6">
-            <div className="rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_22%,transparent)] bg-white p-6 shadow-[0_18px_45px_rgba(44,34,28,0.08)]">
-              <p className="text-sm font-semibold text-[var(--mn-ink)]">Distribute your story</p>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--mn-ink-soft)]">
-                Need syndication, formatting, or editorial review? Our team routes every submission through the same checklist.
-              </p>
-              <Link
-                href="/contact"
-                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-[var(--mn-coral)] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 mr-[50px]"
-              >
-                Contact
-              </Link>
-              <Link href="/contact" className="mt-3 block text-center text-sm font-semibold text-[var(--mn-coral)] hover:underline mr-[100px]">
-                Contact
-              </Link>
-            </div>
-            <div className="rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_18%,transparent)] bg-[color-mix(in_srgb,var(--mn-cream)_55%,white)] p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--mn-ink-soft)]">Site search</p>
-              <Link
-                href="/search"
-                className="mt-3 flex items-center justify-center rounded-xl border border-dashed border-[var(--mn-coral)] bg-white py-3 text-sm font-semibold text-[var(--mn-coral)] transition hover:bg-[var(--mn-cream)]"
-              >
-                Open search
-              </Link>
+            {hero ? (
+              <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[1.25rem] border border-border bg-muted shadow-sm">
+                <ContentImage src={hero} alt={post.title} fill className="object-cover" priority />
+              </div>
+            ) : null}
+
+            <RichContent html={html} className="article-content mt-10 max-w-none text-[1.05rem] leading-[1.75] text-foreground/90" />
+          </div>
+
+          <aside className="space-y-6 lg:pt-2">
+            <div className="rounded-[1.25rem] border border-border bg-white p-6 shadow-sm">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">More releases</p>
+              <ul className="mt-4 space-y-4">
+                {related.map((item) => (
+                  <li key={item.id}>
+                    <Link href={buildPostUrl('mediaDistribution', item.slug)} className="block text-sm font-semibold leading-snug text-foreground hover:text-primary">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </aside>
         </div>
+      </article>
 
-        {related.length ? (
-          <section className="mt-20 border-t border-[color-mix(in_srgb,var(--mn-coral)_22%,transparent)] pt-14">
-            <h2 className="font-display text-2xl font-semibold tracking-[-0.02em]">Related releases</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {related.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/updates/${item.slug}`}
-                  className="group rounded-2xl border border-[color-mix(in_srgb,var(--mn-coral)_18%,transparent)] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <h3 className="font-display text-lg font-semibold text-[var(--mn-ink)] group-hover:text-[var(--mn-coral)]">{item.title}</h3>
-                  {item.summary ? <p className="mt-2 line-clamp-2 text-sm text-[var(--mn-ink-soft)]">{item.summary}</p> : null}
-                </Link>
-              ))}
-            </div>
-          </section>
-        ) : null}
-      </main>
       <Footer />
     </div>
   )

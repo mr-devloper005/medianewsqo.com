@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
 
@@ -75,6 +74,7 @@ export function FooterOverride() {
             </ul>
           </div>
         </div>
+
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs text-[color-mix(in_srgb,var(--mn-cream)_55%,white)] sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {year} {SITE_CONFIG.name}. All rights reserved.
